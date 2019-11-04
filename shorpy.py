@@ -21,9 +21,9 @@ import sys
 import mysql.connector
 
 form="""<!DOCTYPE html>
-<html lang="de">
+<html lang="en">
 <head>
-    <title>Erstelle neuen Link</title>
+    <title>create a new link</title>
     <meta charset="utf-8">
     <meta http-equiv="Cache-Control" content="no-cache">
 	<style>
@@ -44,7 +44,7 @@ form="""<!DOCTYPE html>
 		</select>
 		<input type="text" name="url" placeholder="example.com">
                 Password: <input type="password" name="pw" placeholder="your password">
-		<input type="submit" value="erstellen">
+		<input type="submit" value="create">
 	</form>
 </body>
 </html>
