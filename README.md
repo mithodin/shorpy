@@ -14,5 +14,6 @@ A very small url shortening service in python using mod_wsgi.
 ## Usage
 Let's say your installation of shorpy is hosted at `https://s.example.com`.
  - Visit `https://s.example.com/<your_new_link_name>` to create a new link. Fill in the form. Click "create". If it worked, you will be redirected immediately to your newly created link.
+   The link name must only contain alphanumeric characters.
  - Send your link wherever you like. Shorpy redirects users via a temporary redirect (302 status code).
  - Shorpy does currently not have an interface to delete or edit links. Do that directly in the database.
