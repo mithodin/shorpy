@@ -55,6 +55,8 @@ class Database:
     sqlserver = None
     get_url_query = """SELECT url FROM redirects WHERE name = %s"""
     set_url_query = """INSERT INTO redirects (name,url) VALUES(%s,%s)"""
+    create_table_query = """CREATE TABLE shorpy ( uid INT NOT NULL AUTO_INCREMENT , url VARCHAR(2048) NOT NULL name VARCHAR(20) NOT NULL , PRIMARY KEY (uid), UNIQUE (name))"""
+    drop_table_query = """DROP TABLE redirects"""
 
     def __init__(self, conf):
         self.conf = conf
@@ -62,15 +64,37 @@ class Database:
 
     def get_url(self, name):
         cursor = self.sqlserver.cursor(prepared=True)
-        cursor.execute(self.get_url_query,(name,))
-        res = cursor.fetchall()
+        try:
+            cursor.execute(self.get_url_query,(name,))
+            res = cursor.fetchall()
+        except ProgrammingError as pe:
+            self.handle_error(pe)
         if res:
             return res[0][0].decode("utf-8")
 
     def set_url(self, name, url):
         cursor = self.sqlserver.cursor(prepared=True)
-        cursor.execute(self.set_url_query,(name,url))
-        self.sqlserver.commit()
+        done = False
+        while not done:
+            try:
+                cursor.execute(self.set_url_query,(name,url))
+                self.sqlserver.commit()
+                done = True
+            except mysql.connector.ProgrammingError as pe:
+                self.handle_error(pe)
+
+    def handle_error(self,error):
+        if error.errno == 1146: #table does not exist
+            cursor = self.sqlserver.cursor()
+            cursor.execute(self.create_table_query)
+            self.sqlserver.commit()
+        elif error.errno == 1054: #column does not exist
+            cursor = self.sqlserver.cursor()
+            cursor.execute(self.drop_table_query)
+            cursor.execute(self.create_table_query)
+            self.sqlserver.commit()
+        else: #don't know what the problem is, notify the user
+            raise error
 
 def application(environ, start_response):
     with open(os.path.dirname(__file__)+"/config.json") as json_file:
