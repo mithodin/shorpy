@@ -64,6 +64,7 @@ class Database:
 
     def get_url(self, name):
         cursor = self.sqlserver.cursor(prepared=True)
+        res = None
         try:
             cursor.execute(self.get_url_query,(name,))
             res = cursor.fetchall()
@@ -74,12 +75,11 @@ class Database:
 
     def set_url(self, name, url):
         cursor = self.sqlserver.cursor(prepared=True)
-        done = False
-        while not done:
+        while True:
             try:
                 cursor.execute(self.set_url_query,(name,url))
                 self.sqlserver.commit()
-                done = True
+                break
             except mysql.connector.ProgrammingError as pe:
                 self.handle_error(pe)
 
