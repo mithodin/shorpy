@@ -1,0 +1,6 @@
+{
+	"dbuser":"shorpy_user",
+	"dbpw":"your_database_password_here",
+	"dbname":"shorpy_database",
+	"updatepw":"your_admin_password_here"
+}
