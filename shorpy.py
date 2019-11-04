@@ -67,7 +67,7 @@ class Database:
         try:
             cursor.execute(self.get_url_query,(name,))
             res = cursor.fetchall()
-        except ProgrammingError as pe:
+        except mysql.connector.ProgrammingError as pe:
             self.handle_error(pe)
         if res:
             return res[0][0].decode("utf-8")
