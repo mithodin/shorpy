@@ -29,7 +29,6 @@ form="""<!DOCTYPE html>
 	<style>
 		html,body {
 			width = 100vw;
-			font-size: 2vw;
 			font-family: "Fira Sans", sans-serif;
 		}
 		p {
