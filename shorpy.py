@@ -55,7 +55,7 @@ class Database:
     sqlserver = None
     get_url_query = """SELECT url FROM redirects WHERE name = %s"""
     set_url_query = """INSERT INTO redirects (name,url) VALUES(%s,%s)"""
-    create_table_query = """CREATE TABLE shorpy ( uid INT NOT NULL AUTO_INCREMENT , url VARCHAR(2048) NOT NULL name VARCHAR(20) NOT NULL , PRIMARY KEY (uid), UNIQUE (name))"""
+    create_table_query = """CREATE TABLE shorpy ( uid INT NOT NULL AUTO_INCREMENT , url VARCHAR(2048) NOT NULL , name VARCHAR(20) NOT NULL , PRIMARY KEY (uid), UNIQUE (name))"""
     drop_table_query = """DROP TABLE redirects"""
 
     def __init__(self, conf):
